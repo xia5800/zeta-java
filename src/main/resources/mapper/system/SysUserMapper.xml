@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeta.system.dao.SysUserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zeta.system.model.entity.SysUser">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="created_by" jdbcType="BIGINT" property="createdBy" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        <result column="updated_by" jdbcType="BIGINT" property="updatedBy" />
+        <result column="state" jdbcType="INTEGER" property="state" />
+        <result column="username" jdbcType="VARCHAR" property="username" />
+        <result column="account" jdbcType="VARCHAR" property="account" />
+        <result column="password" jdbcType="VARCHAR" property="password" />
+        <result column="email" jdbcType="VARCHAR" property="email" />
+        <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+        <result column="sex" jdbcType="INTEGER" property="sex" />
+        <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+        <result column="birthday" jdbcType="DATE" property="birthday" />
+        <result column="readonly_" jdbcType="BIT" property="readonly" />
+        <result column="deleted" jdbcType="BIT" property="deleted" />
+    </resultMap>
+
+    <!-- 表名 -->
+    <sql id="TABLE_NAME">
+        sys_user
+    </sql>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, create_time, created_by, update_time, updated_by, state, 
+        username, account, password, email, mobile, sex, avatar, birthday, readonly_, deleted
+    </sql>
+
+    <!-- 用法：<include refid="SYS_USER_JOIN_COLUMN_LIST"><property name="tableName" value="t1"/></include>, -->
+    <!-- 关联查询字段列 -->
+    <sql id="SYS_USER_JOIN_COLUMN_LIST">
+        ${tableName}.id, ${tableName}.create_time, ${tableName}.created_by, ${tableName}.update_time, ${tableName}.updated_by, ${tableName}.state, 
+        ${tableName}.username, ${tableName}.account, ${tableName}.password, ${tableName}.email, ${tableName}.mobile, ${tableName}.sex, 
+        ${tableName}.avatar, ${tableName}.birthday, ${tableName}.readonly_, ${tableName}.deleted
+    </sql>
+
+    <!-- 通用查询条件 -->
+    <sql id="Base_Where">
+        <where>
+            <if test="param.id != null and param.id != ''">
+                AND id = #{param.id}
+            </if>
+            <if test="param.createTime != null and param.createTime != ''">
+                AND create_time = #{param.createTime}
+            </if>
+            <if test="param.createdBy != null and param.createdBy != ''">
+                AND created_by = #{param.createdBy}
+            </if>
+            <if test="param.updateTime != null and param.updateTime != ''">
+                AND update_time = #{param.updateTime}
+            </if>
+            <if test="param.updatedBy != null and param.updatedBy != ''">
+                AND updated_by = #{param.updatedBy}
+            </if>
+            <if test="param.state != null and param.state != ''">
+                AND state = #{param.state}
+            </if>
+            <if test="param.username != null and param.username != ''">
+                AND username LIKE CONCAT('%', #{param.username}, '%') 
+            </if>
+            <if test="param.account != null and param.account != ''">
+                AND account LIKE CONCAT('%', #{param.account}, '%') 
+            </if>
+            <if test="param.password != null and param.password != ''">
+                AND password LIKE CONCAT('%', #{param.password}, '%') 
+            </if>
+            <if test="param.email != null and param.email != ''">
+                AND email LIKE CONCAT('%', #{param.email}, '%') 
+            </if>
+            <if test="param.mobile != null and param.mobile != ''">
+                AND mobile LIKE CONCAT('%', #{param.mobile}, '%') 
+            </if>
+            <if test="param.sex != null and param.sex != ''">
+                AND sex = #{param.sex}
+            </if>
+            <if test="param.avatar != null and param.avatar != ''">
+                AND avatar LIKE CONCAT('%', #{param.avatar}, '%') 
+            </if>
+            <if test="param.birthday != null and param.birthday != ''">
+                AND birthday = #{param.birthday}
+            </if>
+            <if test="param.readonly != null and param.readonly != ''">
+                AND readonly_ = #{param.readonly}
+            </if>
+            <if test="param.deleted != null and param.deleted != ''">
+                AND deleted = #{param.deleted}
+            </if>
+        </where>
+    </sql>
+
+</mapper>
