@@ -32,7 +32,7 @@ public @interface PreCheckRole {
     /**
      * 需要校验的权限码
      */
-    String[] value() default "";
+    String[] value() default {};
 
     /**
      * 验证模式：AND | OR，默认AND

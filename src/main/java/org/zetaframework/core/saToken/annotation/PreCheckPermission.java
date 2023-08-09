@@ -35,7 +35,7 @@ public @interface PreCheckPermission {
     /**
      * 需要校验的权限码
      */
-    String[] value() default "";
+    String[] value() default {};
 
     /**
      * 验证模式：AND | OR，默认AND
@@ -45,7 +45,7 @@ public @interface PreCheckPermission {
     /**
      * 在权限认证不通过时的次要选择，两者只要其一认证成功即可通过校验
      */
-    String[] orRole() default "";
+    String[] orRole() default {};
 
     /**
      * 该类、方法是否启用权限校验
