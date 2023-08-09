@@ -91,6 +91,15 @@ public interface StringCacheKey extends CacheKey {
     /**
      * 删除key
      *
+     * @return
+     */
+    default Boolean delete() {
+        return delete(null);
+    }
+
+    /**
+     * 删除key
+     *
      * @param suffix   key后缀 可空
      */
     default Boolean delete(Object suffix) {
@@ -98,5 +107,5 @@ public interface StringCacheKey extends CacheKey {
     }
 
     // 如果需要用到这里没有的方法，可以在这里加，或者使用getValueOps()自己实现
-    
+
 }
