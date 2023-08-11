@@ -2,7 +2,7 @@ package com.zeta.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zeta.system.model.entity.SysLoginLog;
-import org.zetaframework.core.log.model.SysLoginLogDTO;
+import org.zetaframework.core.log.model.LoginLogDTO;
 
 /**
  * 登录日志 服务类
@@ -15,8 +15,8 @@ public interface ISysLoginLogService extends IService<SysLoginLog> {
     /**
      * 保存用户登录日志
      *
-     * @param loginLogDTO {@link org.zetaframework.core.log.model.SysLoginLogDTO}
+     * @param loginLogDTO {@link LoginLogDTO}
      */
-    void save(SysLoginLogDTO loginLogDTO);
+    void save(LoginLogDTO loginLogDTO);
 
 }

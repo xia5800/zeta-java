@@ -9,7 +9,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.zetaframework.core.log.aspect.SysLogAspect;
+import org.zetaframework.core.log.aspect.LogAspect;
 import org.zetaframework.core.log.properties.LogProperties;
 
 /**
@@ -24,11 +24,11 @@ import org.zetaframework.core.log.properties.LogProperties;
 @EnableConfigurationProperties(LogProperties.class)
 @ConditionalOnWebApplication
 @ConditionalOnProperty(prefix = LogProperties.PREFIX, name = { "enabled" }, havingValue = "true", matchIfMissing = true)
-public class SysLogConfiguration {
+public class LogConfiguration {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final ApplicationContext context;
-    public SysLogConfiguration(ApplicationContext context) {
+    public LogConfiguration(ApplicationContext context) {
         this.context = context;
     }
 
@@ -38,9 +38,9 @@ public class SysLogConfiguration {
      */
     @Bean
     @ConditionalOnMissingBean
-    public SysLogAspect sysLogAspect() {
+    public LogAspect sysLogAspect() {
         logger.info("记录用户操作日志功能：启动");
-        return new SysLogAspect(context);
+        return new LogAspect(context);
     }
 
 }

@@ -47,8 +47,8 @@ import org.zetaframework.core.exception.ArgumentException;
 import org.zetaframework.core.exception.BusinessException;
 import org.zetaframework.core.log.annotation.SysLog;
 import org.zetaframework.core.log.enums.LoginStateEnum;
-import org.zetaframework.core.log.event.SysLoginEvent;
-import org.zetaframework.core.log.model.SysLoginLogDTO;
+import org.zetaframework.core.log.event.LoginEvent;
+import org.zetaframework.core.log.model.LoginLogDTO;
 import org.zetaframework.core.saToken.annotation.PreAuth;
 import org.zetaframework.core.saToken.annotation.PreCheckPermission;
 import org.zetaframework.core.utils.ContextUtil;
@@ -343,7 +343,7 @@ public class SysUserController extends SuperNoQueryController<ISysUserService, L
         }
 
         // 登出日志
-        SysLoginEvent event = new SysLoginEvent(SysLoginLogDTO.loginFail(user.getAccount(), LoginStateEnum.LOGOUT, "修改密码", request));
+        LoginEvent event = new LoginEvent(LoginLogDTO.loginFail(user.getAccount(), LoginStateEnum.LOGOUT, "修改密码", request));
         applicationContext.publishEvent(event);
 
         // 下线
@@ -377,7 +377,7 @@ public class SysUserController extends SuperNoQueryController<ISysUserService, L
         }
 
         // 登出日志
-        SysLoginEvent event = new SysLoginEvent(SysLoginLogDTO.loginFail(user.getAccount(), LoginStateEnum.LOGOUT, "重置密码", request));
+        LoginEvent event = new LoginEvent(LoginLogDTO.loginFail(user.getAccount(), LoginStateEnum.LOGOUT, "重置密码", request));
         applicationContext.publishEvent(event);
 
         // 让被修改密码的人下线

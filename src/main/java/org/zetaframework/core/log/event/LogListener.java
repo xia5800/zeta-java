@@ -2,7 +2,7 @@ package org.zetaframework.core.log.event;
 
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
-import org.zetaframework.core.log.model.SysLogDTO;
+import org.zetaframework.core.log.model.LogDTO;
 
 import java.util.function.Consumer;
 
@@ -10,25 +10,24 @@ import java.util.function.Consumer;
  * 系统日志事件监听
  *
  * 使用说明：
- * 1. 在业务包中，@Bean配置一个SysLogListener
+ * 1. 在业务包中，@Bean配置一个LogListener
  * 2. 保存系统日志的方式交给具体的业务去实现
  * @author gcc
  */
-public class SysLogListener {
-    private Consumer<SysLogDTO> consumer;
+public class LogListener {
+    private Consumer<LogDTO> consumer;
 
     /**
      * 构造方法
      *
      * 使用方式：
      * <pre>
-     *     new SysLogListener((SysLogDTO data) -> {
+     *     new LogListener((LogDTO data) -> {
      *          // Do something
      *     })
      * </pre>
-     * @param consumer
      */
-    public SysLogListener(Consumer<SysLogDTO> consumer) {
+    public LogListener(Consumer<LogDTO> consumer) {
         this.consumer = consumer;
     }
 
@@ -40,17 +39,17 @@ public class SysLogListener {
      * @param event 登录日志事件
      */
     @Async
-    @EventListener(SysLogEvent.class)
-    public void saveSysLoginLog(SysLogEvent event) {
-        SysLogDTO sysLogDTO = (SysLogDTO) event.getSource();
-        consumer.accept(sysLogDTO);
+    @EventListener(LogEvent.class)
+    public void saveSysLoginLog(LogEvent event) {
+        LogDTO logDTO = (LogDTO) event.getSource();
+        consumer.accept(logDTO);
     }
 
-    public Consumer<SysLogDTO> getConsumer() {
+    public Consumer<LogDTO> getConsumer() {
         return consumer;
     }
 
-    public void setConsumer(Consumer<SysLogDTO> consumer) {
+    public void setConsumer(Consumer<LogDTO> consumer) {
         this.consumer = consumer;
     }
 }

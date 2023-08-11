@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author gcc
  */
-public class SysLoginLogDTO {
+public class LoginLogDTO {
 
     /** 状态 {@link LoginStateEnum} */
     private String state;
@@ -51,9 +51,9 @@ public class SysLoginLogDTO {
      * @param state 状态
      * @param comments 备注
      * @param request HttpServletRequest
-     * @return SysLoginLogDTO
+     * @return LoginLogDTO
      */
-    public static SysLoginLogDTO build(String account, String state, String comments, HttpServletRequest request) {
+    public static LoginLogDTO build(String account, String state, String comments, HttpServletRequest request) {
         UserAgent ua = UserAgentUtil.parse(ServletUtil.getHeaderIgnoreCase(request, "User-Agent"));
         String ip = ServletUtil.getClientIP(request);
         String ipRegion = StrUtil.EMPTY;
@@ -61,17 +61,17 @@ public class SysLoginLogDTO {
             ipRegion = IpAddressUtil.search(ip);
         }
 
-        SysLoginLogDTO sysLoginLogDTO = new SysLoginLogDTO();
-        sysLoginLogDTO.setState(state);
-        sysLoginLogDTO.setUserId(ContextUtil.getUserId());
-        sysLoginLogDTO.setAccount(account);
-        sysLoginLogDTO.setOs(ua.getPlatform().getName());
-        sysLoginLogDTO.setDevice(ua.getOs().getName());
-        sysLoginLogDTO.setBrowser(ua.getBrowser().getName());
-        sysLoginLogDTO.setIp(ip);
-        sysLoginLogDTO.setIpRegion(ipRegion);
-        sysLoginLogDTO.setComments(comments);
-        return sysLoginLogDTO;
+        LoginLogDTO loginLogDTO = new LoginLogDTO();
+        loginLogDTO.setState(state);
+        loginLogDTO.setUserId(ContextUtil.getUserId());
+        loginLogDTO.setAccount(account);
+        loginLogDTO.setOs(ua.getPlatform().getName());
+        loginLogDTO.setDevice(ua.getOs().getName());
+        loginLogDTO.setBrowser(ua.getBrowser().getName());
+        loginLogDTO.setIp(ip);
+        loginLogDTO.setIpRegion(ipRegion);
+        loginLogDTO.setComments(comments);
+        return loginLogDTO;
     }
 
     /**
@@ -79,9 +79,9 @@ public class SysLoginLogDTO {
      *
      * @param account 账号
      * @param request HttpServletRequest
-     * @return SysLoginLogDTO
+     * @return LoginLogDTO
      */
-    public static SysLoginLogDTO loginSuccess(String account, HttpServletRequest request) {
+    public static LoginLogDTO loginSuccess(String account, HttpServletRequest request) {
         return build(account, LoginStateEnum.SUCCESS.name(), LoginStateEnum.SUCCESS.getDesc(), request);
     }
 
@@ -91,9 +91,9 @@ public class SysLoginLogDTO {
      * @param account 账号
      * @param comments 备注
      * @param request HttpServletRequest
-     * @return SysLoginLogDTO
+     * @return LoginLogDTO
      */
-    public static SysLoginLogDTO loginSuccess(String account, String comments, HttpServletRequest request) {
+    public static LoginLogDTO loginSuccess(String account, String comments, HttpServletRequest request) {
         return build(account, LoginStateEnum.SUCCESS.name(), comments, request);
     }
 
@@ -103,9 +103,9 @@ public class SysLoginLogDTO {
      * @param account 账号
      * @param state 状态 {@link LoginStateEnum}
      * @param request HttpServletRequest
-     * @return SysLoginLogDTO
+     * @return LoginLogDTO
      */
-    public static SysLoginLogDTO loginFail(String account, LoginStateEnum state, HttpServletRequest request) {
+    public static LoginLogDTO loginFail(String account, LoginStateEnum state, HttpServletRequest request) {
         return build(account, state.name(), state.getDesc(), request);
     }
 
@@ -116,9 +116,9 @@ public class SysLoginLogDTO {
      * @param state 状态  {@link LoginStateEnum}
      * @param comments 备注
      * @param request HttpServletRequest
-     * @return SysLoginLogDTO
+     * @return LoginLogDTO
      */
-    public static SysLoginLogDTO loginFail(String account, LoginStateEnum state, String comments, HttpServletRequest request) {
+    public static LoginLogDTO loginFail(String account, LoginStateEnum state, String comments, HttpServletRequest request) {
         return build(account, state.name(), comments, request);
     }
 
@@ -193,5 +193,20 @@ public class SysLoginLogDTO {
 
     public void setComments(String comments) {
         this.comments = comments;
+    }
+
+    @Override
+    public String toString() {
+        return "LoginLogDTO{" +
+                "state='" + state + '\'' +
+                ", userId=" + userId +
+                ", account='" + account + '\'' +
+                ", os='" + os + '\'' +
+                ", device='" + device + '\'' +
+                ", browser='" + browser + '\'' +
+                ", ip='" + ip + '\'' +
+                ", ipRegion='" + ipRegion + '\'' +
+                ", comments='" + comments + '\'' +
+                '}';
     }
 }

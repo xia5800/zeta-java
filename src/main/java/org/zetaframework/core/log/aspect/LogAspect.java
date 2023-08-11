@@ -21,8 +21,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.zetaframework.core.log.annotation.SysLog;
 import org.zetaframework.core.log.enums.LogTypeEnum;
-import org.zetaframework.core.log.event.SysLogEvent;
-import org.zetaframework.core.log.model.SysLogDTO;
+import org.zetaframework.core.log.event.LogEvent;
+import org.zetaframework.core.log.model.LogDTO;
 import org.zetaframework.core.utils.IpAddressUtil;
 import org.zetaframework.core.utils.JSONUtil;
 import org.zetaframework.core.utils.ZetaFunction;
@@ -42,26 +42,26 @@ import java.util.Map;
  */
 // @Component  // 为了可以控制开启、关闭全局日志记录。改为Bean配置的方式
 @Aspect
-public class SysLogAspect {
+public class LogAspect {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private static final ThreadLocal<Long> START_TIME = new ThreadLocal<>();
     private static final Integer MAX_LENGTH = 65535;
 
     private final ApplicationContext context;
-    public SysLogAspect(ApplicationContext context) {
+    public LogAspect(ApplicationContext context) {
         this.context = context;
     }
 
     @Pointcut("@annotation(org.zetaframework.core.log.annotation.SysLog)")
-    public void SysLogAspect() {}
+    public void LogAspect() {}
 
     /**
      * 执行方法之前
      *
      * @param joinPoint JoinPoint
      */
-    @Before(value = "SysLogAspect()")
+    @Before(value = "LogAspect()")
     public void doBefore(JoinPoint joinPoint) {
         // 记录操作开始时间
         START_TIME.set(System.currentTimeMillis());
@@ -73,7 +73,7 @@ public class SysLogAspect {
      * @param joinPoint JoinPoint
      * @param result Object
      */
-    @AfterReturning(pointcut = "SysLogAspect()", returning = "result")
+    @AfterReturning(pointcut = "LogAspect()", returning = "result")
     public void doAfterReturning(JoinPoint joinPoint, Object result) {
         publishEvent(joinPoint, result);
     }
@@ -84,7 +84,7 @@ public class SysLogAspect {
      * @param joinPoint JoinPoint
      * @param e Throwable
      */
-    @AfterThrowing(pointcut = "SysLogAspect()", throwing = "e")
+    @AfterThrowing(pointcut = "LogAspect()", throwing = "e")
     public void doAfterThrowing(JoinPoint joinPoint, Throwable e) {
         publishEvent(joinPoint, e);
     }
@@ -132,15 +132,15 @@ public class SysLogAspect {
         }
 
         // 构造系统日志
-        SysLogDTO sysLogDTO = buildSysLogDTO(joinPoint, sysLog);
-        sysLogDTO.setType(LogTypeEnum.OPERATION.name());
-        sysLogDTO.setSpendTime(spendTime);
-        sysLogDTO.setResult(getResponse(result, sysLog));
-        sysLogDTO.setException(getException(exception, () -> {
-            sysLogDTO.setType(LogTypeEnum.EXCEPTION.name());
+        LogDTO logDTO = buildLogDTO(joinPoint, sysLog);
+        logDTO.setType(LogTypeEnum.OPERATION.name());
+        logDTO.setSpendTime(spendTime);
+        logDTO.setResult(getResponse(result, sysLog));
+        logDTO.setException(getException(exception, () -> {
+            logDTO.setType(LogTypeEnum.EXCEPTION.name());
         }));
         // 发布保存系统日志事件
-        context.publishEvent(new SysLogEvent(sysLogDTO));
+        context.publishEvent(new LogEvent(logDTO));
     }
 
     /**
@@ -161,23 +161,23 @@ public class SysLogAspect {
      * 构造系统日志
      * @param joinPoint JoinPoint
      * @param sysLog SysLog
-     * @return SysLogDTO
+     * @return logDTO
      */
-    private SysLogDTO buildSysLogDTO(JoinPoint joinPoint, SysLog sysLog) {
-        SysLogDTO sysLogDTO = new SysLogDTO();
+    private LogDTO buildLogDTO(JoinPoint joinPoint, SysLog sysLog) {
+        LogDTO logDTO = new LogDTO();
 
         // 类路径
         String declaringTypeName = joinPoint.getSignature().getDeclaringTypeName();
         String name = joinPoint.getSignature().getName();
         String classPath = StrUtil.join(".", declaringTypeName, name);
-        sysLogDTO.setClassPath(classPath);
+        logDTO.setClassPath(classPath);
 
         // 操作描述
-        sysLogDTO.setDescription(getDescription(joinPoint, sysLog));
+        logDTO.setDescription(getDescription(joinPoint, sysLog));
 
         // 获取请求地址、请求方式、ip等
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        if (attributes == null) { return sysLogDTO; }
+        if (attributes == null) { return logDTO; }
         HttpServletRequest request = attributes.getRequest();
         UserAgent ua = UserAgentUtil.parse(ServletUtil.getHeaderIgnoreCase(request, "User-Agent"));
         String ip = ServletUtil.getClientIP(request);
@@ -187,19 +187,19 @@ public class SysLogAspect {
         }
 
         // 记录请求地址、请求方式、ip 等
-        sysLogDTO.setUrl(request.getRequestURI());
-        sysLogDTO.setHttpMethod(request.getMethod());
-        sysLogDTO.setOs(ua.getPlatform().getName());
-        sysLogDTO.setDevice(ua.getOs().getName());
-        sysLogDTO.setBrowser(ua.getBrowser().getName());
-        sysLogDTO.setIp(ip);
-        sysLogDTO.setIpRegion(ipRegion);
+        logDTO.setUrl(request.getRequestURI());
+        logDTO.setHttpMethod(request.getMethod());
+        logDTO.setOs(ua.getPlatform().getName());
+        logDTO.setDevice(ua.getOs().getName());
+        logDTO.setBrowser(ua.getBrowser().getName());
+        logDTO.setIp(ip);
+        logDTO.setIpRegion(ipRegion);
         // 获取请求参数
         if (sysLog.request()) {
-            sysLogDTO.setParams(getRequestParam(joinPoint, request));
+            logDTO.setParams(getRequestParam(joinPoint, request));
         }
 
-        return sysLogDTO;
+        return logDTO;
     }
 
 

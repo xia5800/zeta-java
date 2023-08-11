@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.zetaframework.base.param.PageParam;
 import org.zetaframework.base.result.PageResult;
 import org.zetaframework.core.log.annotation.SysLog;
-import org.zetaframework.core.log.model.SysLogDTO;
+import org.zetaframework.core.log.model.LogDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -37,12 +37,12 @@ public class SysOptLogServiceImpl extends ServiceImpl<SysOptLogMapper, SysOptLog
      * 说明：
      * {@link SysLog}注解的业务实现
      *
-     * @param sysLogDTO {@link SysLogDTO}
+     * @param logDTO {@link LogDTO}
      */
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void save(SysLogDTO sysLogDTO) {
-        SysOptLog optLog = BeanUtil.toBean(sysLogDTO, SysOptLog.class);
+    public void save(LogDTO logDTO) {
+        SysOptLog optLog = BeanUtil.toBean(logDTO, SysOptLog.class);
         this.save(optLog);
     }
 
@@ -50,6 +50,7 @@ public class SysOptLogServiceImpl extends ServiceImpl<SysOptLogMapper, SysOptLog
      * 分页查询 前端数据表格用
      *
      * @param param PageParam<SysOptLogQueryParam>
+     * @return PageResult<SysOptLogTableDTO>
      */
     @Override
     public PageResult<SysOptLogTableDTO> pageTable(PageParam<SysOptLogQueryParam> param) {

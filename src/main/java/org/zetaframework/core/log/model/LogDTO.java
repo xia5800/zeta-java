@@ -7,7 +7,7 @@ import org.zetaframework.core.log.enums.LogTypeEnum;
  *
  * @author gcc
  */
-public class SysLogDTO {
+public class LogDTO {
 
     /**  日志类型 see: {@link LogTypeEnum} */
     private String type;
@@ -162,5 +162,25 @@ public class SysLogDTO {
 
     public void setIpRegion(String ipRegion) {
         this.ipRegion = ipRegion;
+    }
+
+    @Override
+    public String toString() {
+        return "LogDTO{" +
+                "type='" + type + '\'' +
+                ", description='" + description + '\'' +
+                ", url='" + url + '\'' +
+                ", httpMethod='" + httpMethod + '\'' +
+                ", classPath='" + classPath + '\'' +
+                ", params='" + params + '\'' +
+                ", result='" + result + '\'' +
+                ", exception='" + exception + '\'' +
+                ", spendTime=" + spendTime +
+                ", os='" + os + '\'' +
+                ", device='" + device + '\'' +
+                ", browser='" + browser + '\'' +
+                ", ip='" + ip + '\'' +
+                ", ipRegion='" + ipRegion + '\'' +
+                '}';
     }
 }

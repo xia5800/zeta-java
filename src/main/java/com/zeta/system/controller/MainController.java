@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.*;
 import org.zetaframework.base.controller.SuperSimpleController;
 import org.zetaframework.base.result.ApiResult;
 import org.zetaframework.core.log.enums.LoginStateEnum;
-import org.zetaframework.core.log.event.SysLoginEvent;
-import org.zetaframework.core.log.model.SysLoginLogDTO;
+import org.zetaframework.core.log.event.LoginEvent;
+import org.zetaframework.core.log.model.LoginLogDTO;
 import org.zetaframework.core.redis.annotation.Limit;
 import org.zetaframework.core.utils.ContextUtil;
 import org.zetaframework.extra.crypto.helper.AESHelper;
@@ -82,14 +82,14 @@ public class MainController extends SuperSimpleController<ISysUserService, SysUs
 
         // 比较密码
         if (!service.comparePassword(password, user.getPassword())) {
-            SysLoginEvent event = new SysLoginEvent(SysLoginLogDTO.loginFail(param.getAccount(), LoginStateEnum.ERROR_PWD, request));
+            LoginEvent event = new LoginEvent(LoginLogDTO.loginFail(param.getAccount(), LoginStateEnum.ERROR_PWD, request));
             applicationContext.publishEvent(event);
             // 密码不正确
             return fail(LoginStateEnum.ERROR_PWD.getDesc());
         }
         // 判断用户状态
         if (Objects.equals(user.getState(), UserStateEnum.FORBIDDEN.getCode())) {
-            SysLoginEvent event = new SysLoginEvent(SysLoginLogDTO.loginFail(param.getAccount(), LoginStateEnum.FAIL, "用户被禁用，无法登录", request));
+            LoginEvent event = new LoginEvent(LoginLogDTO.loginFail(param.getAccount(), LoginStateEnum.FAIL, "用户被禁用，无法登录", request));
             applicationContext.publishEvent(event);
             return fail("用户被禁用，无法登录");
         }
@@ -99,7 +99,7 @@ public class MainController extends SuperSimpleController<ISysUserService, SysUs
         StpUtil.login(user.getId());
 
         // 登录日志
-        applicationContext.publishEvent(new SysLoginEvent(SysLoginLogDTO.loginSuccess(
+        applicationContext.publishEvent(new LoginEvent(LoginLogDTO.loginSuccess(
                 param.getAccount(), request
         )));
 
@@ -119,7 +119,7 @@ public class MainController extends SuperSimpleController<ISysUserService, SysUs
         SysUser user = service.getById(StpUtil.getLoginIdAsLong());
         if (user == null) return fail("用户异常");
 
-        applicationContext.publishEvent(new SysLoginEvent(SysLoginLogDTO.loginFail(
+        applicationContext.publishEvent(new LoginEvent(LoginLogDTO.loginFail(
                 user.getAccount(), LoginStateEnum.LOGOUT, request
         )));
 

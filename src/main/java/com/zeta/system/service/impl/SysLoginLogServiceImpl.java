@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.zetaframework.core.log.model.SysLoginLogDTO;
+import org.zetaframework.core.log.model.LoginLogDTO;
 
 /**
  * 登录日志 服务实现类
@@ -25,11 +25,11 @@ public class SysLoginLogServiceImpl extends ServiceImpl<SysLoginLogMapper, SysLo
     /**
      * 保存用户登录日志
      *
-     * @param loginLogDTO {@link SysLoginLogDTO}
+     * @param loginLogDTO {@link LoginLogDTO}
      */
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void save(SysLoginLogDTO loginLogDTO) {
+    public void save(LoginLogDTO loginLogDTO) {
         SysLoginLog loginLog = BeanUtil.toBean(loginLogDTO, SysLoginLog.class);
         loginLog.setCreatedBy(loginLogDTO.getUserId());
         this.save(loginLog);
