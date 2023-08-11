@@ -15,7 +15,7 @@ import java.util.function.Consumer;
  * @author gcc
  */
 public class LoginLogListener {
-    private Consumer<LoginLogDTO> consumer;
+    private final Consumer<LoginLogDTO> consumer;
 
     /**
      * 构造方法
@@ -45,11 +45,4 @@ public class LoginLogListener {
         consumer.accept(loginLogDTO);
     }
 
-    public Consumer<LoginLogDTO> getConsumer() {
-        return consumer;
-    }
-
-    public void setConsumer(Consumer<LoginLogDTO> consumer) {
-        this.consumer = consumer;
-    }
 }

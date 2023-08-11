@@ -19,7 +19,7 @@ import java.util.function.BiConsumer;
  * @author gcc
  */
 public class WsUserEventListener {
-    private BiConsumer<WsUser, WsUserTypeEnum> consumer;
+    private final BiConsumer<WsUser, WsUserTypeEnum> consumer;
 
     /**
      * 构造方法
@@ -50,13 +50,4 @@ public class WsUserEventListener {
         consumer.accept(event.getUser(), userType);
     }
 
-
-
-    public BiConsumer<WsUser, WsUserTypeEnum> getConsumer() {
-        return consumer;
-    }
-
-    public void setConsumer(BiConsumer<WsUser, WsUserTypeEnum> consumer) {
-        this.consumer = consumer;
-    }
 }
