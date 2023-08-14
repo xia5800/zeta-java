@@ -1,11 +1,14 @@
 package org.zetaframework.core.utils;
 
+import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import org.lionsoul.ip2region.xdb.Searcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.InputStream;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
@@ -25,7 +28,16 @@ public class IpAddressUtil {
     private static byte[] vectorIndex = null;
 
     static {
-        String dbPath = IpAddressUtil.class.getResource("/ip2region.xdb").getPath();
+        // fix: 解决打成jar包无法读取文件ip2region.xdb问题 --by gcc date:2023-08-14
+        String tmpDir = System.getProperty("user.dir") + File.separator + "temp";
+        String dbPath = tmpDir + File.separator + "ip2region.db";
+
+        File file = new File(dbPath);
+        if (!file.exists()) {
+            logger.info("init ip region db path [{}]", dbPath);
+            InputStream resourceAsStream = IpAddressUtil.class.getResourceAsStream("/ip2region.xdb");
+            FileUtil.writeFromStream(resourceAsStream, file);
+        }
 
         try {
             // 1.从 dbPath 中预先加载 VectorIndex 缓存，并且把这个得到的数据作为全局变量，后续反复使用
