@@ -30,7 +30,7 @@ public class IpAddressUtil {
     static {
         // fix: 解决打成jar包无法读取文件ip2region.xdb问题 --by gcc date:2023-08-14
         String tmpDir = System.getProperty("user.dir") + File.separator + "temp";
-        String dbPath = tmpDir + File.separator + "ip2region.db";
+        String dbPath = tmpDir + File.separator + "ip2region.xdb";
 
         File file = new File(dbPath);
         if (!file.exists()) {
