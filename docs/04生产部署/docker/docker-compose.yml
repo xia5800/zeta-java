@@ -1,0 +1,16 @@
+version: "3.7"
+services:
+  zeta_java_server:
+    build:
+      context: ""
+      dockerfile: Dockerfile
+      args:
+        - JAR_FILE_NAME=zeta-java.jar
+        - SPRING_ENV=docker
+    image: zeta_java_server:latest
+    container_name: zeta_java_server
+    restart: always
+    volumes:
+      - ./logs/:/root/product/data
+    ports:
+      - "8080:8080" # 格式 "服务器端口:容器端口"
