@@ -45,12 +45,11 @@ public class SysMenuSaveDTO implements Serializable {
     private Integer sortValue;
 
     /** 路由名称 */
-    @ApiModelProperty(value = "路由名称", required = true)
-    @NotBlank(message = "路由名称不能为空")
+    @ApiModelProperty(value = "路由名称 type=MENU时不能为空", required = false)
     private String name;
 
     /** 路由地址 */
-    @ApiModelProperty(value = "路由地址", required = false)
+    @ApiModelProperty(value = "路由地址 type=MENU时不能为空", required = false)
     private String path;
 
     /** 组件地址 */
