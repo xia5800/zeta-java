@@ -71,9 +71,11 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
         List<Long> userIds = userRoleList.stream()
                 .map(SysUserRole::getUserId)
                 .collect(Collectors.toList());
-        // 删除用户权限缓存
-        saPermissionStringCacheKey.delete(userIds);
-        // 删除用户角色缓存
-        saRoleStringCacheKey.delete(userIds);
+        for (Long userId : userIds) {
+            // 删除用户权限缓存
+            saPermissionStringCacheKey.delete(userId);
+            // 删除用户角色缓存
+            saRoleStringCacheKey.delete(userId);
+        }
     }
 }
