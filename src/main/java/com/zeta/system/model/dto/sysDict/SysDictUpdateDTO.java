@@ -40,6 +40,12 @@ public class SysDictUpdateDTO implements Serializable {
     @Size(max = 32, message = "名称长度不能超过32")
     private String name;
 
+    /** 编码 */
+    @ApiModelProperty(value = "编码", required = true)
+    @NotEmpty(message = "编码不能为空")
+    @Size(max = 32, message = "编码长度不能超过32")
+    private String code;
+
     /** 描述 */
     @ApiModelProperty(value = "描述", required = false)
     private String describe;

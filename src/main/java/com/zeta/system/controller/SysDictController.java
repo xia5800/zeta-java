@@ -58,6 +58,21 @@ public class SysDictController extends SuperController<ISysDictService, Long, Sy
     }
 
     /**
+     * 自定义修改
+     *
+     * @param updateDTO UpdateDTO 修改对象
+     * @return ApiResult<Boolean>
+     */
+    @Override
+    public ApiResult<Boolean> handlerUpdate(SysDictUpdateDTO updateDTO) {
+        // 判断是否存在
+        if (new ExistParam<SysDict, Long>(SysDict::getCode, updateDTO.getCode(), updateDTO.getId()).isExist(service)) {
+            return fail("编码已存在");
+        }
+        return super.handlerUpdate(updateDTO);
+    }
+
+    /**
      * 导入参数增强
      * <p>
      * 说明：
