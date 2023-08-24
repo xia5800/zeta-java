@@ -44,7 +44,7 @@ public class MonitorController implements SuperBaseController {
     public ApiResult<ServerInfoDTO> serverInfo() {
         ServerInfoDTO serverInfo = ServerInfoDTO.builder()
                 .sysInfo(ServerInfoDTO.SysInfo.build(oshiMonitor.getSysInfo()))
-                .cupInfo(ServerInfoDTO.CpuInfo.build(oshiMonitor.getCpuInfo()))
+                .cpuInfo(ServerInfoDTO.CpuInfo.build(oshiMonitor.getCpuInfo()))
                 .memoryInfo(ServerInfoDTO.MemoryInfo.build(oshiMonitor.getMemoryInfo()))
                 .jvmInfo(ServerInfoDTO.JvmInfo.build(oshiMonitor.getJvmInfo()))
                 .centralProcessor(ServerInfoDTO.CentralProcessor.build(

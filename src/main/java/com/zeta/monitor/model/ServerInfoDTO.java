@@ -27,7 +27,7 @@ public class ServerInfoDTO {
 
     /** cpu信息 */
     @ApiModelProperty(value = "cpu信息")
-    private CpuInfo cupInfo;
+    private CpuInfo cpuInfo;
 
     /** 内存信息 */
     @ApiModelProperty(value = "内存信息")
