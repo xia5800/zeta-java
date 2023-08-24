@@ -82,14 +82,15 @@ public class AliFileStrategyImpl extends AbstractFileStrategy {
     @Override
     public InputStream getObject(String path) {
         FileProperties.Ali ali = fileProperties.getAli();
+
+        OSS ossClient = new OSSClientBuilder().build(ali.getEndpoint(), ali.getAccessKeyId(), ali.getAccessKeySecret());
         try {
             // 获取文件
-            OSS ossClient = new OSSClientBuilder().build(ali.getEndpoint(), ali.getAccessKeyId(), ali.getAccessKeySecret());
             OSSObject ossObject = ossClient.getObject(ali.getBucket(), path);
-            ossClient.shutdown();
 
             return ossObject.getObjectContent();
         } catch (Exception e) {
+            ossClient.shutdown();
             logger.error("阿里云oss获取文件异常：", e);
         }
         return null;
