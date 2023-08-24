@@ -21,11 +21,11 @@ public class LoginLogListener {
      * 构造方法
      *
      * 使用方式：
-     * <pre>
+     * <pre>{@code
      *     new LoginLogListener((LoginLogDTO data) -> {
      *          // Do something
      *     })
-     * </pre>
+     * }</pre>
      */
     public LoginLogListener(Consumer<LoginLogDTO> consumer) {
         this.consumer = consumer;

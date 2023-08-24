@@ -122,7 +122,7 @@ public class ExistParam<Entity, Id> {
      * 返回值 > 0说明存在，否则说明不存在。
      *
      * 使用方式：
-     * <pre>
+     * <pre>{@code
      *     // 语法：
      *     new ExistParam<实体类,主键字段类型>(检查的字段名, 检查的字段值, 主键字段的值).isExist(service, 主键字段名);
      *     new ExistParam<SysUser, Long>("account", "admin", 1L).isExist(userService, "id");
@@ -139,7 +139,7 @@ public class ExistParam<Entity, Id> {
      *     if (param.isExist(userService, SysUser::getId)) { return fail("账号已存在"); }
      *     若主键字段名是id，还可以省略掉idField参数
      *     if (param.isExist(userService)) { return fail("账号已存在"); }
-     * </pre>
+     * }</pre>
      *
      * @param service IService<Entity>   service
      * @return Boolean
@@ -156,7 +156,7 @@ public class ExistParam<Entity, Id> {
      * 返回值 > 0说明存在，否则说明不存在。
      *
      * 使用方式：
-     * <pre>
+     * <pre>{@code
      *     // 语法：
      *     new ExistParam<实体类,主键字段类型>(检查的字段名, 检查的字段值, 主键字段的值).isExist(service, 主键字段名);
      *     new ExistParam<SysUser, Long>("account", "admin", 1L).isExist(userService, "id");
@@ -173,7 +173,7 @@ public class ExistParam<Entity, Id> {
      *     if (param.isExist(userService, SysUser::getId)) { return fail("账号已存在"); }
      *     若主键字段名是id，还可以省略掉idField参数
      *     if (param.isExist(userService)) { return fail("账号已存在"); }
-     * </pre>
+     * }</pre>
      *
      * @param service IService<Entity>   service
      * @param idField String            主键字段, 例如：id, userId, user_id
@@ -191,7 +191,7 @@ public class ExistParam<Entity, Id> {
      * 返回值 > 0说明存在，否则说明不存在。
      *
      * 使用方式：
-     * <pre>
+     * <pre>{@code
      *     // 语法：
      *     new ExistParam<实体类,主键字段类型>(检查的字段名, 检查的字段值, 主键字段的值).isExist(service, 主键字段名);
      *     new ExistParam<SysUser, Long>("account", "admin", 1L).isExist(userService, "id");
@@ -208,7 +208,7 @@ public class ExistParam<Entity, Id> {
      *     if (param.isExist(userService, SysUser::id)) { return fail("账号已存在"); }
      *     若主键字段名是id，还可以省略掉idField参数
      *     if (param.isExist(userService)) { return fail("账号已存在"); }
-     * </pre>
+     * }</pre>
      *
      * @param service IService<Entity>   service
      * @param idField String            主键字段, 例如：id, userId, user_id
@@ -227,7 +227,7 @@ public class ExistParam<Entity, Id> {
      * 返回值 > 0说明存在，否则说明不存在。
      *
      * 使用方式：
-     * <pre>
+     * <pre>{@code
      *     // 语法：
      *     new ExistParam<实体类,主键字段类型>(检查的字段名, 检查的字段值, 主键字段的值).isExist(service, 主键字段名);
      *     new ExistParam<SysUser, Long>("account", "admin", 1L).isExist(userService, "id");
@@ -244,7 +244,7 @@ public class ExistParam<Entity, Id> {
      *     if (param.isExist(userService, SysUser::id)) { return fail("账号已存在"); }
      *     若主键字段名是id，还可以省略掉idField参数
      *     if (param.isExist(userService)) { return fail("账号已存在"); }
-     * </pre>
+     * }</pre>
      *
      * @param service IService<Entity>   service
      * @param idField String            主键字段, 例如：id, userId, user_id

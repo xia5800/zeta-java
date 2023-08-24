@@ -120,13 +120,13 @@ public class JSONUtil {
      * 用于转换有泛型的对象
      * <br>
      * 使用方法：
-     * <pre>
-     * // 将jsonStr转成List<SysUser>对象
-     * List<SysUser> userList = JSONUtil.parseObject(jsonStr, new TypeReference<List<SysUser>>(){})
+     * <pre>{@code
+     *     // 将jsonStr转成List<SysUser>对象
+     *     List<SysUser> userList = JSONUtil.parseObject(jsonStr, new TypeReference<List<SysUser>>(){})
      *
-     * // 将jsonStr转成ApiResult<Map<String, Object>>对象
-     * ApiResult<Map<String, Object>> result = JSONUtil.parseObject(jsonStr, new TypeReference<ApiResult<Map<String, Object>>>(){})
-     * </pre>
+     *     // 将jsonStr转成ApiResult<Map<String, Object>>对象
+     *     ApiResult<Map<String, Object>> result = JSONUtil.parseObject(jsonStr, new TypeReference<ApiResult<Map<String, Object>>>(){})
+     * }</pre>
      * @param json json字符串
      * @param valueTypeRef  值类型参考
      * @return T

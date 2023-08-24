@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
  * 参考sa-token框架的@SaCheckRole注解实现
  *
  * 使用方式:
- * <pre>
+ * <pre>{@code
  *      // 校验是否有admin角色
  *      @PreCheckRole(value = "admin")
  *      // 校验是否有admin 和 super_admin角色
@@ -22,7 +22,7 @@ import java.lang.annotation.Target;
  *      // 关闭角色鉴权
  *      @PreCheckRole(enable = false)
  *      @PreCheckRole(value = "admin", enable = false)
- * </pre>
+ * }</pre>
  * @author gcc
  */
 @Retention(RetentionPolicy.RUNTIME)

@@ -31,19 +31,19 @@ public class ChartController {
      * <h3>群发消息</h3>
      *
      * 前端：
-     * <pre>
-     * 发送topic: '/group'
-     * 订阅topic: '/topic/group'
-     * </pre>
+     * <pre>{@code
+     *     发送topic: '/group'
+     *     订阅topic: '/topic/group'
+     * }</pre>
      *
      * 前端代码参考：
-     * <pre>
-     * // 群发
-     * stompClient.send("/group", {}, '大家好');
+     * <pre>{@code
+     *     // 群发
+     *     stompClient.send("/group", {}, '大家好');
      *
-     * // 订阅群发消息
-     * stompClient.subscribe('/topic/group', function (data) { console.log(data.body); });
-     * </pre>
+     *     // 订阅群发消息
+     *     stompClient.subscribe('/topic/group', function (data) { console.log(data.body); });
+     * }</pre>
      *
      * 说明：
      * 广播消息，不指定用户，所有订阅此topic的用户都能接收到消息
@@ -60,19 +60,19 @@ public class ChartController {
      * <h3>私聊</h3>
      *
      * 前端：
-     * <pre>
-     * 发送topic: '/private'
-     * 订阅topic: '/user/queue/private'
-     * </pre>
+     * <pre>{@code
+     *     发送topic: '/private'
+     *     订阅topic: '/user/queue/private'
+     * }</pre>
      *
      * 前端代码参考：
-     * <pre>
-     * // 私聊  send方法3个参数分别是("topic", 请求头，内容)
-     * stompClient.send("/private", {toUserId: toUserId}, '你好，这是一条私聊信息');
+     * <pre>{@code
+     *     // 私聊  send方法3个参数分别是("topic", 请求头，内容)
+     *     stompClient.send("/private", {toUserId: toUserId}, '你好，这是一条私聊信息');
      *
-     * // 订阅私聊消息
-     * stompClient.subscribe('/user/queue/private', function (data) { console.log(data.body); });
-     * </pre>
+     *     // 订阅私聊消息
+     *     stompClient.subscribe('/user/queue/private', function (data) { console.log(data.body); });
+     * }</pre>
      *
      * 说明：
      * 一对一消息，需指定用户
@@ -93,18 +93,18 @@ public class ChartController {
      * <h3>主动查询自己的信息</h3>
      *
      * 前端：
-     * <pre>
-     * 发送topic: '/info'
-     * 订阅topic: '/user/queue/info'
-     * </pre>
+     * <pre>{@code
+     *     发送topic: '/info'
+     *     订阅topic: '/user/queue/info'
+     * }</pre>
      *
      * 前端代码参考：
-     * <pre>
-     * // 主动查询自己的信息
-     * stompClient.send("/info", {}, {});
-     * // 订阅
-     * stompClient.subscribe('/user/queue/info', function (data) { console.log(data.body); });
-     * </pre>
+     * <pre>{@code
+     *     // 主动查询自己的信息
+     *     stompClient.send("/info", {}, {});
+     *     // 订阅
+     *     stompClient.subscribe('/user/queue/info', function (data) { console.log(data.body); });
+     * }</pre>
      * @param user: Principal
      */
     @MessageMapping("/info")
@@ -118,15 +118,15 @@ public class ChartController {
      * <h3>订阅topic获得当前在线人数</h3>
      *
      * 前端：
-     * <pre>
-     * 订阅topic: '/onlineUserCount'
-     * </pre>
+     * <pre>{@code
+     *     订阅topic: '/onlineUserCount'
+     * }</pre>
      *
      * 前端代码参考：
-     * <pre>
-     * // 订阅
-     * stompClient.subscribe('/onlineUserCount', function (data) { console.log(data.body); });
-     * </pre>
+     * <pre>{@code
+     *     // 订阅
+     *     stompClient.subscribe('/onlineUserCount', function (data) { console.log(data.body); });
+     * }</pre>
      *
      * 说明：
      * websocket连接后，一订阅该topic马上就会收到回复

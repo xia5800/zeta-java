@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
  * 3. 只能用于方法上
  *
  * 使用方式：
- * <pre>
+ * <pre>{@code
  *      // 使用方式一
  *      @Api(tags = "用户管理")  // 类上的注解
  *      @ApiOperation(value = "分页查询")
@@ -33,7 +33,7 @@ import java.lang.annotation.Target;
  *
  *      // 关闭记录操作日志
  *      @SysLog(enable = false)
- * </pre>
+ * }</pre>
  * @author gcc
  */
 @Retention(RetentionPolicy.RUNTIME)

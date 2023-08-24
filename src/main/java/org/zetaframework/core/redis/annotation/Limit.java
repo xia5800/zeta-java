@@ -11,23 +11,23 @@ import java.lang.annotation.Target;
  * <h1>接口限流</h1>
  *
  * 使用方式：
- * <pre>
- * // 登录限流，1分钟只允许调用3次。 => 限流的redisKey为：`limit:login123:{ip}`
- * @Limit(name = "登录限流", key = "login123", period = "60", count = "3")
- * public ApiResult<LoginResult> login(loginParam: LoginParam) {}
+ * <pre>{@code
+ *     // 登录限流，1分钟只允许调用3次。 => 限流的redisKey为：`limit:login123:{ip}`
+ *     @Limit(name = "登录限流", key = "login123", period = "60", count = "3")
+ *     public ApiResult<LoginResult> login(loginParam: LoginParam) {}
  *
- * // 获取当前登录用户信息，1分钟只允许调用3次 => 限流的redisKey为：`limit:userInfo:{userId}`
- * @Limit(period = "60", count = "3", limitType = LimitType.USERID)
- * public ApiResult<SysUser> userInfo() {}
+ *     // 获取当前登录用户信息，1分钟只允许调用3次 => 限流的redisKey为：`limit:userInfo:{userId}`
+ *     @Limit(period = "60", count = "3", limitType = LimitType.USERID)
+ *     public ApiResult<SysUser> userInfo() {}
  *
- * // 最简单的写法。1分钟只允许调用10次 => 限流的redisKey为：`limit:custom:{ip}`
- * @Limit
- * public ApiResult<Boolean> custom() {}
+ *     // 最简单的写法。1分钟只允许调用10次 => 限流的redisKey为：`limit:custom:{ip}`
+ *     @Limit
+ *     public ApiResult<Boolean> custom() {}
  *
- * // 修改限流后返回描述
- * @Limit(describe = "哎呀呀，你的请求太频繁了，请稍后再试哦")
- * public ApiResult<Boolean> custom() {}
- * </pre>
+ *     // 修改限流后返回描述
+ *     @Limit(describe = "哎呀呀，你的请求太频繁了，请稍后再试哦")
+ *     public ApiResult<Boolean> custom() {}
+ * }</pre>
  *
  * @author gcc
  */

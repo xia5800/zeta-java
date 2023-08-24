@@ -132,28 +132,28 @@ public class PageParam<T> {
      * 排序字段别名处理
      *
      * 说明适用于下面这种情况：
-     * <pre>
-     * select t1.id, t2.name from order t1 left join user t2 on t1.user_id = t2.id
-     * order by t1.id desc
-     * </pre>
+     * <pre>{@code
+     *     select t1.id, t2.name from order t1 left join user t2 on t1.user_id = t2.id
+     *     order by t1.id desc
+     * }</pre>
      *
      * 使用方式：
-     * <pre>
-     * // 查询条件
-     * { "page": 1, "limit": 10, "model": { }, "order": "desc", "sort": "id" }
+     * <pre>{@code
+     *     // 查询条件
+     *     { "page": 1, "limit": 10, "model": { }, "order": "desc", "sort": "id" }
      *
-     * // 使用
-     * new PageParam(1, 10, new Order()).setSortAlias("t1.")
-     * 或者
-     * public void customPage(@RequestBody PageParam<QueryParam> param) {
-     *     param.setSortAlias("t1.")
-     *     // ...
-     * }
+     *     // 使用
+     *     new PageParam(1, 10, new Order()).setSortAlias("t1.")
+     *     或者
+     *     public void customPage(@RequestBody PageParam<QueryParam> param) {
+     *         param.setSortAlias("t1.")
+     *         // ...
+     *     }
      *
-     * // 实际生成sql
-     * select t1.id, t2.name from order t1 left join user t2 on t1.user_id = t2.id
-     * order by t1.id desc
-     * </pre>
+     *     // 实际生成sql
+     *     select t1.id, t2.name from order t1 left join user t2 on t1.user_id = t2.id
+     *     order by t1.id desc
+     * }</pre>
      * @param alias 别名 eg: "t1.","a.","order."
      */
     @JsonIgnore

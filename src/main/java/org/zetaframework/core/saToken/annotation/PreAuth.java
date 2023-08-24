@@ -12,13 +12,13 @@ import java.lang.annotation.Target;
  * 配合@PreCheckPermission注解使用。只能用于类
  *
  * 使用方式：
- * <pre>
+ * <pre>{@code
  *      @PreAuth(replace = "sys:user")
  *      // 校验是否有sys:user:add权限
  *      @PreCheckPermission(value = "{}:add")
  *      // 关闭类鉴权
  *      @PreAuth(enabled = false)
- * </pre>
+ * }</pre>
  * @author gcc
  */
 @Retention(RetentionPolicy.RUNTIME)

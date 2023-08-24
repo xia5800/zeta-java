@@ -25,11 +25,11 @@ public class WsUserEventListener {
      * 构造方法
      *
      * 使用方式：
-     * <pre>
+     * <pre>{@code
      *     new WsUserEventListener((WsUser user, WsUserTypeEnum typeEnum) -> {
      *          // Do something
      *     })
-     * </pre>
+     * }</pre>
      * @param consumer
      */
     public WsUserEventListener(BiConsumer<WsUser, WsUserTypeEnum> consumer) {
