@@ -3,6 +3,7 @@ package com.zeta.system.model.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.zeta.system.model.enums.MenuTypeEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -65,7 +66,8 @@ public class SysMenu extends TreeEntity<SysMenu, Long> {
     private MenuTypeEnum type;
 
     /** 逻辑删除字段 */
-    @ApiModelProperty(value = "逻辑删除字段", required = true)
+    @JsonIgnore
+    @ApiModelProperty(value = "逻辑删除字段", hidden = true, required = true)
     @TableLogic
     private Boolean deleted;
 
