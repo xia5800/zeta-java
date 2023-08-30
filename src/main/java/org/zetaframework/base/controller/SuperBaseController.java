@@ -36,7 +36,7 @@ public interface SuperBaseController {
      * @return ApiResult<T>
      */
     default <T> ApiResult<T> success(String message, T data) {
-        return ApiResult.success(message, null);
+        return ApiResult.success(message, data);
     }
 
     /**
