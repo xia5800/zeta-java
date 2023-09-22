@@ -4,10 +4,12 @@ import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
+import com.baomidou.mybatisplus.core.toolkit.sql.SqlInjectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.zetaframework.core.exception.ArgumentException;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -119,6 +121,10 @@ public class PageParam<T> {
         for (int i = 0; i < sortArr.length ; i++) {
             // 驼峰转下划线
             String sortField = StrUtil.toUnderlineCase(sortArr[i]);
+            // 检查参数是否存在 SQL 注入
+            if (SqlInjectionUtils.check(sortField)) {
+                throw new ArgumentException("非法请求参数");
+            }
             orders.add(
                     StrUtil.equalsAny(orderArr[i], "asc", "ascending") ?
                             OrderItem.asc(sortField) : OrderItem.desc(sortField)
@@ -158,6 +164,11 @@ public class PageParam<T> {
      */
     @JsonIgnore
     public void setSortAlias(String alias) {
+        // 检查参数是否存在 SQL 注入
+        if (SqlInjectionUtils.check(alias)) {
+            throw new ArgumentException("非法请求参数");
+        }
+
         String[] sortArr = StrUtil.splitToArray(this.sort, StrUtil.COMMA);
         if (ArrayUtil.isNotEmpty(sortArr)) {
             this.sort = Arrays.stream(sortArr).map(it -> {
