@@ -36,9 +36,71 @@ zeta:
     # 忽略xss防护的地址
     excludeUrl:
       - /**/noxss/**
-      - /**/page
-      - /**/query
+      # 忽略指定接口的xss防护
+      - /api/test/test1
+      # 忽略新增、修改接口的xss防护
+      - POST:/api/demo
+      - PUT:/api/demo
 ```
+
+## 使用@NoXss注解来排除接口XSS防护
+
+为了解决本项目使用xss防护的痛点，即：
+
+- 没有忽略xss防护的注解，每次都要手动添加需要忽略xss防护的接口地址
+- 项目接口用的是REST API风格。如果想要忽略新增接口的XSS防护，会把修改接口的XSS防护也忽略掉
+
+本人新增了一个自定义注解`@NoXss`来解决这些问题。使用方式很简单,只要在接口上加上`@NoXss`注解即可
+
+```java
+@RestController
+@RequestMapping("/api/noToken/demo")
+public class DemoController extends SuperSimpleController<IDemoService, Demo> implements
+    SaveController<Demo, DemoSaveDTO>,
+    UpdateController<Demo, DemoUpdateDTO>
+{
+
+    /**
+     * 新增接口不需要XSS防护
+     */
+    @NoXss
+    @Override
+    public ApiResult<Boolean> save(DemoSaveDTO saveDTO) {
+        logger.info("请求数据：{}", JSONUtil.toJsonStr(saveDTO));
+        return success(true);
+    }
+
+    /**
+     * 修改接口需要XSS防护
+     */
+    @Override
+    public ApiResult<Boolean> update(DemoUpdateDTO updateDTO) {
+        logger.info("请求数据：{}", JSONUtil.toJsonStr(updateDTO));
+        return success(true);
+    }
+
+    @ApiOperation(value = "有xss防护")
+    @GetMapping("/test1")
+    public ApiResult<String> test1(@RequestParam @ApiParam("姓名") String name) {
+        return success(StrUtil.format("hello {}", name));
+    }
+
+    @ApiOperation(value = "无xss防护写法1")
+    @GetMapping("/noxss/test2")
+    public ApiResult<String> test2(@RequestParam @ApiParam("姓名") String name) {
+        return success(StrUtil.format("hello {}", name));
+    }
+
+    @NoXss
+    @ApiOperation(value = "无xss防护写法2")
+    @GetMapping("/test3")
+    public ApiResult<String> test3(@RequestParam @ApiParam("姓名") String name) {
+        return success(StrUtil.format("hello {}", name));
+    }
+}
+```
+
+## 效果
 
 开启XSS防护之后，如果黑客依旧向`/api/system/dict`接口POST如下数据
 
