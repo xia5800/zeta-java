@@ -1,5 +1,6 @@
 package org.zetaframework.core.xss;
 
+import cn.hutool.core.util.StrUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -9,11 +10,19 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.condition.PatternsRequestCondition;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
+import org.zetaframework.core.xss.annotation.NoXss;
 import org.zetaframework.core.xss.cleaner.HutoolXssCleaner;
 import org.zetaframework.core.xss.cleaner.XssCleaner;
 import org.zetaframework.core.xss.filter.XssFilter;
 import org.zetaframework.core.xss.properties.XssProperties;
 import org.zetaframework.core.xss.serializer.XssStringJsonDeserializer;
+
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * XSS跨站脚本攻击防护 配置
@@ -25,6 +34,7 @@ import org.zetaframework.core.xss.serializer.XssStringJsonDeserializer;
  *
  * @author gcc
  */
+@DependsOn("requestMappingHandlerMapping")
 @Configuration
 @EnableConfigurationProperties(XssProperties.class)
 @ConditionalOnWebApplication
@@ -33,9 +43,37 @@ public class XssConfiguration {
     private static final Logger logger = LoggerFactory.getLogger(XssConfiguration.class);
 
     private final XssProperties xssProperties;
-    public XssConfiguration(XssProperties xssProperties) {
+    public XssConfiguration(XssProperties xssProperties, RequestMappingHandlerMapping requestMappingHandlerMapping) {
         logger.info("XSS跨站脚本攻击防护功能：启动");
         this.xssProperties = xssProperties;
+
+        requestMappingHandlerMapping.getHandlerMethods().forEach((mapping, handlerMethod) -> {
+            // 如果方法上面没有@NoXss注解
+            if (!handlerMethod.getMethod().isAnnotationPresent(NoXss.class)) {
+                return;
+            }
+
+            // 将url添加到xss添加到排除的url中去
+            PatternsRequestCondition patternsCondition = mapping.getPatternsCondition();
+            if (patternsCondition != null && !patternsCondition.isEmpty()) {
+                patternsCondition.getPatterns().stream()
+                        .filter(StrUtil::isNotBlank)
+                        .forEach((urlPattern) -> {
+                            Optional<RequestMethod> first = mapping.getMethodsCondition().getMethods().stream().findFirst();
+                            if (first.isPresent()) {
+                                RequestMethod requestMethod = first.get();
+                                // GET, HEAD, POST, PUT, PATCH, DELETE, OPTIONS, TRACE
+                                String name = requestMethod.name();
+
+                                // 构造：“GET:/api/demo”、“POST:/api/sysUser”这样的地址
+                                Set<String> excludeUrl = xssProperties.getExcludeUrl();
+                                excludeUrl.add(StrUtil.format("{}:{}", name, urlPattern));
+                                xssProperties.setExcludeUrl(excludeUrl);
+                            }
+                        });
+            }
+        });
+        logger.debug("不需要XSS处理的路由：{}", xssProperties.getNotMatchUrl());
     }
 
     /**

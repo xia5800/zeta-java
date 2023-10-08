@@ -46,7 +46,7 @@ public class XssStringJsonDeserializer extends JsonDeserializer<String> {
         if (StrUtil.isBlank(value)) return value;
 
         // XSS防护开关是否关闭
-        if (xssProperties.getEnabled()) return value;
+        if (!xssProperties.getEnabled()) return value;
         // 当前url是否是忽略xss防护的地址
         if (xssProperties.isIgnoreUrl()) return value;
 

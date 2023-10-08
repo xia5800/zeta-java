@@ -55,6 +55,6 @@ public class XssFilter extends OncePerRequestFilter {
         }
 
         // 当前url是否是忽略xss防护的地址
-        return xssProperties.isIgnoreUrl(request.getRequestURI());
+        return xssProperties.isIgnoreUrl(request.getMethod(), request.getRequestURI());
     }
 }
