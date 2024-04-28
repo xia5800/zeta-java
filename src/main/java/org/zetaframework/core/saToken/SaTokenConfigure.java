@@ -120,6 +120,8 @@ public class SaTokenConfigure implements WebMvcConfigurer {
                     case String:
                         ContextUtil.setUserId(StpUtil.getLoginIdAsString());
                         break;
+                    default:
+                        break;
                 }
                 ContextUtil.setToken(StpUtil.getTokenValue());
             });
