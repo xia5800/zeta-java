@@ -169,6 +169,22 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     /**
+     * 修改用户基本信息
+     *
+     * @param changeUser SysUser 待修改的用户信息
+     * @return
+     */
+    @CacheEvict(value = {RedisKeyConstants.USER_PERMISSION_KEY, RedisKeyConstants.USER_ROLE_KEY}, key = "#changeUser.id")
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public Boolean updateUserBaseInfo(SysUser changeUser) {
+        if (!this.updateById(changeUser)) {
+            throw new BusinessException("修改用户失败");
+        }
+        return true;
+    }
+
+    /**
      * 获取用户角色
      *
      * @param userId Long

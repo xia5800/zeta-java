@@ -45,6 +45,15 @@ public interface ISysUserService extends IService<SysUser> {
      */
     Boolean updateUser(SysUserUpdateDTO updateDTO);
 
+
+    /**
+     * 修改用户基本信息
+     *
+     * @param changeUser SysUser 待修改的用户信息
+     * @return
+     */
+    Boolean updateUserBaseInfo(SysUser changeUser);
+
     /**
      * 获取用户角色
      *

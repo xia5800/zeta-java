@@ -19,6 +19,7 @@ import com.zeta.system.model.entity.SysUser;
 import com.zeta.system.model.enums.MenuTypeEnum;
 import com.zeta.system.model.enums.UserStateEnum;
 import com.zeta.system.model.param.ChangePasswordParam;
+import com.zeta.system.model.param.ChangeUserBaseInfoParam;
 import com.zeta.system.model.param.ResetPasswordParam;
 import com.zeta.system.model.param.SysUserQueryParam;
 import com.zeta.system.model.poi.SysUserExportPoi;
@@ -401,6 +402,32 @@ public class SysUserController extends SuperNoQueryController<ISysUserService, L
         // 获取用户权限列表
         userInfoDTO.setPermissions(StpUtil.getPermissionList());
         return success(userInfoDTO);
+    }
+
+    /**
+     * 修改用户基础信息（右上角用户信息页面-保存修改时调用）
+     *
+     * @param param 修改用户基本信息参数
+     * @return
+     */
+    @ApiOperationSupport(order = 101)
+    @ApiOperation(value = "修改用户基础信息")
+    @PutMapping("/changeUserBaseInfo")
+    public ApiResult<Boolean> changeUserBaseInfo(@RequestBody @Validated ChangeUserBaseInfoParam param) {
+        SysUser user = service.getById(ContextUtil.getUserId());
+        if (user == null) return fail("用户不存在");
+
+        // 判断用户是否允许修改
+        if (user.getReadonly() != null && user.getReadonly()) {
+            throw new BusinessException("用户[]禁止修改", user.getUsername());
+        }
+
+        // param -> entity
+        BeanUtil.copyProperties(param, user);
+
+        // 修改用户信息
+        boolean result = service.updateUserBaseInfo(user);
+        return  result ? success("修改成功", true) : fail("修改失败", false);
     }
 
     /**
