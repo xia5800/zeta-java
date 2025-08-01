@@ -27,7 +27,7 @@ public class DesensitizationJsonSerializer extends JsonSerializer<String> implem
     private String symbol = "";
 
     public DesensitizationJsonSerializer() {
-        // Spring容器加载Bean使用，误删
+        // Spring容器加载Bean使用，勿删
     }
 
     public DesensitizationJsonSerializer(String rule, String symbol) {
@@ -44,8 +44,6 @@ public class DesensitizationJsonSerializer extends JsonSerializer<String> implem
      */
     @Override
     public void serialize(String value, JsonGenerator jsonGenerator, SerializerProvider serializers) throws IOException {
-        if (StrUtil.isBlank(value)) return;
-
         try {
             jsonGenerator.writeString(DesensitizationUtil.deserialization(value, rule, symbol));
         } catch (Exception e) {
