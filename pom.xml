@@ -11,7 +11,7 @@
 
     <groupId>com.zeta</groupId>
     <artifactId>zeta-java</artifactId>
-    <version>1.1.11</version>
+    <version>1.1.12</version>
     <name>${project.artifactId}</name>
     <description>
         zeta-java项目是使用java语言基于spring boot、mybatis-plus、sa-token等框架开发的项目脚手架。
@@ -180,7 +180,7 @@
         </dependency>
         <dependency>
             <groupId>cn.dev33</groupId>
-            <artifactId>sa-token-redis-jackson</artifactId>
+            <artifactId>sa-token-redis-template</artifactId>
         </dependency>
         <!-- sa-token插件 -->
         <dependency>
