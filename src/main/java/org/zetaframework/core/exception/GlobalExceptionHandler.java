@@ -194,6 +194,12 @@ public class GlobalExceptionHandler {
             case NotLoginException.KICK_OUT:
                 message = NotLoginException.KICK_OUT_MESSAGE;
                 break;
+            case NotLoginException.TOKEN_FREEZE:
+                message = NotLoginException.TOKEN_FREEZE_MESSAGE;
+                break;
+            case NotLoginException.NO_PREFIX:
+                message = NotLoginException.NO_PREFIX_MESSAGE;
+                break;
             default:
                 message = NotLoginException.DEFAULT_MESSAGE;
                 break;

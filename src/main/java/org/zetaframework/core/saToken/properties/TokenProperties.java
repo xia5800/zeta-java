@@ -23,7 +23,7 @@ public class TokenProperties {
     private Long expireTime = 7200L;
 
     /** token自动续期，每次操作为token续期指定时间 */
-    private Boolean renew = false;
+    private Boolean autoRenew = false;
 
 
     public String getSignerKey() {
@@ -58,11 +58,11 @@ public class TokenProperties {
         this.expireTime = expireTime;
     }
 
-    public Boolean getRenew() {
-        return renew;
+    public Boolean getAutoRenew() {
+        return autoRenew;
     }
 
-    public void setRenew(Boolean renew) {
-        this.renew = renew;
+    public void setAutoRenew(Boolean autoRenew) {
+        this.autoRenew = autoRenew;
     }
 }

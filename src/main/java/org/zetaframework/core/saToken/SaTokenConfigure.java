@@ -74,22 +74,20 @@ public class SaTokenConfigure implements WebMvcConfigurer {
      *
      * 说明：
      * saToken拦截的接口的跨域配置
+     * BeforeAuth 不受 includeList 与 excludeList 的限制，所有请求都会进入
      */
-    private SaFilterAuthStrategy beforeAuth = new SaFilterAuthStrategy() {
-        @Override
-        public void run(Object r) {
-            // saToken跨域配置
-            SaHolder.getResponse()
-                    .setHeader("Access-Control-Allow-Origin", "*")
-                    .setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH")
-                    .setHeader("Access-Control-Max-Age", "3600")
-                    .setHeader("Access-Control-Allow-Headers", "*")
-                    // 是否启用浏览器默认XSS防护： 0=禁用 | 1=启用 | 1; mode=block 启用, 并在检查到XSS攻击时，停止渲染页面
-                    .setHeader("X-XSS-Protection", "1; mode=block");
+    private final SaFilterAuthStrategy beforeAuth = r -> {
+        // saToken跨域配置
+        SaHolder.getResponse()
+                .setHeader("Access-Control-Allow-Origin", "*")
+                .setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH")
+                .setHeader("Access-Control-Max-Age", "3600")
+                .setHeader("Access-Control-Allow-Headers", "*")
+                // 是否启用浏览器默认XSS防护： 0=禁用 | 1=启用 | 1; mode=block 启用, 并在检查到XSS攻击时，停止渲染页面
+                .setHeader("X-XSS-Protection", "1; mode=block");
 
-            // 如果是预检请求，则立即返回到前端
-            SaRouter.match(SaHttpMethod.OPTIONS).back();
-        }
+        // 如果是预检请求，则立即返回到前端
+        SaRouter.match(SaHttpMethod.OPTIONS).back();
     };
 
     /**
@@ -97,19 +95,21 @@ public class SaTokenConfigure implements WebMvcConfigurer {
      *
      * 说明：
      * saToken接口拦截并处理
+     * 主要是校验token是否有效，对token进行续期，设置用户id和token到ThreadLocal中
      */
-    private SaFilterAuthStrategy auth = new SaFilterAuthStrategy() {
+    private final SaFilterAuthStrategy auth = new SaFilterAuthStrategy() {
         @Override
         public void run(Object r) {
             // 需要登录认证的路由:所有, 排除登录认证的路由:/api/login、swagger等
             SaRouter.match("/**").check(() -> {
                 StpUtil.checkLogin();
+
                 // token续期
-                if (tokenProperties.getRenew()) {
+                if (tokenProperties.getAutoRenew()) {
                     StpUtil.renewTimeout(tokenProperties.getExpireTime());
                 }
 
-                // 获取用户id，并设置到ThreadLocal中。（mybatisplus自动填充用到）
+                // 获取用户id，并设置到ThreadLocal中。（mybatis-plus自动填充用到）
                 switch (dataBaseProperties.getUserIdType()) {
                     case Long:
                         ContextUtil.setUserId(StpUtil.getLoginIdAsLong());
@@ -132,7 +132,7 @@ public class SaTokenConfigure implements WebMvcConfigurer {
      * 拦截器配置
      *
      * 说明：
-     * 可以在这里使用[拦截器鉴权](https://sa-token.dev33.cn/doc/index.html#/use/route-check)
+     * 可以在这里使用<a href="https://sa-token.dev33.cn/doc/index.html#/use/route-check">拦截器鉴权</a>
      * 针对某个接口，某些接口单独进行权限校验
      * @param registry InterceptorRegistry
      */
@@ -216,6 +216,12 @@ public class SaTokenConfigure implements WebMvcConfigurer {
                     break;
                 case NotLoginException.KICK_OUT:
                     message = NotLoginException.KICK_OUT_MESSAGE;
+                    break;
+                case NotLoginException.TOKEN_FREEZE:
+                    message = NotLoginException.TOKEN_FREEZE_MESSAGE;
+                    break;
+                case NotLoginException.NO_PREFIX:
+                    message = NotLoginException.NO_PREFIX_MESSAGE;
                     break;
                 default:
                     message = NotLoginException.DEFAULT_MESSAGE;
