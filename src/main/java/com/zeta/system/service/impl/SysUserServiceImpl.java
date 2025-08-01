@@ -1,6 +1,5 @@
 package com.zeta.system.service.impl;
 
-import cn.dev33.satoken.secure.BCrypt;
 import cn.dev33.satoken.stp.StpInterface;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
@@ -26,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.zetaframework.base.param.PageParam;
@@ -49,6 +49,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     private final ISysUserRoleService userRoleService;
     private final ISysRoleMenuService roleMenuService;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     /**
      * 返回指定账号id所拥有的权限码集合
@@ -241,7 +242,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      */
     @Override
     public String encodePassword(String password) {
-        return BCrypt.hashpw(password);
+        return passwordEncoder.encode(password);
     }
 
     /**
@@ -253,7 +254,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      */
     @Override
     public Boolean comparePassword(String inputPwd, String dbPwd) {
-        return BCrypt.checkpw(inputPwd, dbPwd);
+        return passwordEncoder.matches(inputPwd, dbPwd);
     }
 
     /**

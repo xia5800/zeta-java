@@ -4,6 +4,7 @@ import cn.hutool.crypto.symmetric.AES;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.zetaframework.extra.crypto.helper.AESHelper;
 import org.zetaframework.extra.crypto.properties.AesCryptoProperties;
 
@@ -46,6 +47,16 @@ public class CryptoConfiguration {
     @Bean
     public AESHelper aesHelper(AES aes) {
         return new AESHelper(aes);
+    }
+
+    /**
+     * BCryptPasswordEncoder 配置
+     *
+     * @return BCryptPasswordEncoder
+     */
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
 }
