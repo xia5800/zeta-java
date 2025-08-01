@@ -23,8 +23,8 @@ import org.zetaframework.base.entity.ImportPoi;
 import org.zetaframework.base.param.ImportExcelTemplateParam;
 import org.zetaframework.base.result.ApiResult;
 import org.zetaframework.core.log.annotation.SysLog;
-import org.zetaframework.core.saToken.annotation.PreCheckPermission;
-import org.zetaframework.core.saToken.annotation.PreMode;
+import org.zetaframework.core.satoken.annotation.PreCheckPermission;
+import org.zetaframework.core.satoken.annotation.PreMode;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

@@ -24,8 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.zetaframework.base.controller.SuperController;
 import org.zetaframework.base.controller.extra.PoiController;
 import org.zetaframework.base.result.ApiResult;
-import org.zetaframework.core.saToken.annotation.PreAuth;
-import org.zetaframework.core.saToken.annotation.PreCheckPermission;
+import org.zetaframework.core.satoken.annotation.PreAuth;
+import org.zetaframework.core.satoken.annotation.PreCheckPermission;
 
 import java.util.Collections;
 import java.util.HashMap;

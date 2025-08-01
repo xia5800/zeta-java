@@ -1,4 +1,4 @@
-package org.zetaframework.core.saToken.properties;
+package org.zetaframework.core.satoken.properties;
 
 import cn.hutool.core.collection.CollUtil;
 import org.springframework.boot.context.properties.ConfigurationProperties;

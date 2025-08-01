@@ -1,4 +1,4 @@
-package org.zetaframework.core.saToken.aspect;
+package org.zetaframework.core.satoken.aspect;
 
 import cn.dev33.satoken.exception.NotPermissionException;
 import cn.dev33.satoken.stp.StpUtil;
@@ -14,11 +14,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import org.zetaframework.core.saToken.annotation.PreAuth;
-import org.zetaframework.core.saToken.annotation.PreCheckPermission;
-import org.zetaframework.core.saToken.annotation.PreCheckRole;
-import org.zetaframework.core.saToken.annotation.PreMode;
-import org.zetaframework.core.saToken.properties.IgnoreProperties;
+import org.zetaframework.core.satoken.annotation.PreAuth;
+import org.zetaframework.core.satoken.annotation.PreCheckPermission;
+import org.zetaframework.core.satoken.annotation.PreCheckRole;
+import org.zetaframework.core.satoken.annotation.PreMode;
+import org.zetaframework.core.satoken.properties.IgnoreProperties;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.AnnotatedElement;
@@ -36,10 +36,10 @@ import java.util.stream.Collectors;
 public class PreCheckAspect {
     private final AntPathMatcher ANT_PATH_MATCHER = new AntPathMatcher();
     private static final String POINTCUT_SIGN =
-            "@within(org.zetaframework.core.saToken.annotation.PreCheckPermission) || " +
-            "@annotation(org.zetaframework.core.saToken.annotation.PreCheckPermission) || " +
-            "@within(org.zetaframework.core.saToken.annotation.PreCheckRole) || " +
-            "@annotation(org.zetaframework.core.saToken.annotation.PreCheckRole)";
+            "@within(org.zetaframework.core.satoken.annotation.PreCheckPermission) || " +
+            "@annotation(org.zetaframework.core.satoken.annotation.PreCheckPermission) || " +
+            "@within(org.zetaframework.core.satoken.annotation.PreCheckRole) || " +
+            "@annotation(org.zetaframework.core.satoken.annotation.PreCheckRole)";
 
     @Autowired
     private IgnoreProperties ignoreProperties;

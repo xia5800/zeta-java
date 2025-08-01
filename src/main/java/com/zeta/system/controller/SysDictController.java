@@ -18,7 +18,7 @@ import org.zetaframework.base.controller.SuperController;
 import org.zetaframework.base.controller.extra.PoiController;
 import org.zetaframework.base.param.ExistParam;
 import org.zetaframework.base.result.ApiResult;
-import org.zetaframework.core.saToken.annotation.PreAuth;
+import org.zetaframework.core.satoken.annotation.PreAuth;
 
 import java.util.Collections;
 import java.util.List;

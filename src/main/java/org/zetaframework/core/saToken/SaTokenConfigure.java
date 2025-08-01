@@ -1,4 +1,4 @@
-package org.zetaframework.core.saToken;
+package org.zetaframework.core.satoken;
 
 import cn.dev33.satoken.context.SaHolder;
 import cn.dev33.satoken.exception.NotLoginException;
@@ -26,9 +26,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.zetaframework.base.result.ApiResult;
 import org.zetaframework.core.enums.ErrorCodeEnum;
 import org.zetaframework.core.mybatisplus.properties.DatabaseProperties;
-import org.zetaframework.core.saToken.interceptor.ClearThreadLocalInterceptor;
-import org.zetaframework.core.saToken.properties.IgnoreProperties;
-import org.zetaframework.core.saToken.properties.TokenProperties;
+import org.zetaframework.core.satoken.interceptor.ClearThreadLocalInterceptor;
+import org.zetaframework.core.satoken.properties.IgnoreProperties;
+import org.zetaframework.core.satoken.properties.TokenProperties;
 import org.zetaframework.core.utils.ContextUtil;
 import org.zetaframework.core.utils.JSONUtil;
 
