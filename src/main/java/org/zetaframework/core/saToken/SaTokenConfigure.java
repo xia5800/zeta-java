@@ -132,7 +132,7 @@ public class SaTokenConfigure implements WebMvcConfigurer {
      * 拦截器配置
      *
      * 说明：
-     * 可以在这里使用<a href="https://sa-token.dev33.cn/doc/index.html#/use/route-check">拦截器鉴权</a>
+     * 可以在这里使用<a href="https://sa-token.cc/doc.html#/use/route-check">拦截器鉴权</a>
      * 针对某个接口，某些接口单独进行权限校验
      * @param registry InterceptorRegistry
      */
